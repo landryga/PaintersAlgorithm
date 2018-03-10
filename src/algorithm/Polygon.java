@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author Kuba
  */
-public class Wall {
+public class Polygon {
     
     private float x_start;
     private float x_end;
@@ -162,7 +162,7 @@ public class Wall {
             gl.glVertex3f( x_end,y_end,z_end );
             gl.glVertex3f( x_start,y_end,z_start );
         }
-        if(!is_final)
+        
         gl.glEnd();
     }
 }
