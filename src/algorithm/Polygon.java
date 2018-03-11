@@ -6,9 +6,15 @@
 package algorithm;
 
 import com.jogamp.opengl.GL2;
+
+
+
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,12 +23,17 @@ import java.util.Random;
  */
 public class Polygon {
     
-    private float x_start;
-    private float x_end;
-    private float y_start;
-    private float y_end;
-    private float z_start;
-    private float z_end;
+    double[] vertice1;
+    double[] vertice2;
+    double[] vertice3;
+    double[] vertice4;
+    
+    public double[] vertice1_postCoordinates;
+	public double[] vertice2_postCoordinates;
+    public double[] vertice3_postCoordinates;
+    public double[] vertice4_postCoordinates;
+    
+    
     private String name;
     private int id;
     private boolean is_horizontal = false;
@@ -31,83 +42,22 @@ public class Polygon {
     private float third_color;
     
     
-    /*possible walls orientation:
-        1 - horizontal
-        2 - vertical
-        3 - parallel to viewport
-    */
     
-    private int position;
-    
-    public int getPosition() {
-        if(x_start==x_end) {
-            this.position = 2;
-            return this.position;
-        }
-        else if (z_start==z_end) {
-            this.position = 3;
-            return this.position;
-        }
-        else this.position = 1;
-        return this.position;
+    public List<double[]> getPostVertList() {
+    	List<double[]> vertList = new ArrayList();
+    	
+    	vertice1_postCoordinates = calculateCoords(vertice1, PaintersAlgorithm.modelMatrix);
+    	vertice2_postCoordinates = calculateCoords(vertice2, PaintersAlgorithm.modelMatrix);
+    	vertice3_postCoordinates = calculateCoords(vertice3, PaintersAlgorithm.modelMatrix);
+    	vertice4_postCoordinates = calculateCoords(vertice4, PaintersAlgorithm.modelMatrix);
+    	
+    	vertList.add(vertice1_postCoordinates);
+    	vertList.add(vertice2_postCoordinates);
+    	vertList.add(vertice3_postCoordinates);
+    	vertList.add(vertice4_postCoordinates);
+    	
+    	return vertList;
     }
-    
-    public float getX_start() {
-        return x_start;
-    }
-
-    public void setX_start(float x_start) {
-        this.x_start = x_start;
-    }
-
-    public float getX_end() {
-        return x_end;
-    }
-
-    public void setX_end(float x_end) {
-        this.x_end = x_end;
-    }
-
-    public float getY_start() {
-        return y_start;
-    }
-
-    public void setY_start(float y_start) {
-        this.y_start = y_start;
-    }
-
-    public float getY_end() {
-        return y_end;
-    }
-
-    public void setY_end(float y_end) {
-        this.y_end = y_end;
-    }
-
-    public float getZ_start() {
-        return z_start;
-    }
-
-    public void setZ_start(float z_start) {
-        this.z_start = z_start;
-    }
-
-    public float getZ_end() {
-        return z_end;
-    }
-
-    public void setZ_end(float z_end) {
-        this.z_end = z_end;
-    }
-
-    public boolean isIs_horizontal() {
-        return is_horizontal;
-    }
-
-    public void setIs_horizontal(boolean is_horizontal) {
-        this.is_horizontal = is_horizontal;
-    }
-    
     public String getName() {
         return name;
     }
@@ -134,34 +84,86 @@ public class Polygon {
 		return third_color;
 	}
 
-	public void setCoordinates(float x_start, float x_end, float y_start, float y_end, float z_start, float z_end) {
-        this.x_start = x_start;
-        this.x_end = x_end;
-        this.y_start = y_start;
-        this.y_end = y_end;
-        this.z_start = z_start;
-        this.z_end = z_end;
+	public void setCoordinates(List<double[]> listOfCoords) {
+		
+		this.vertice1 = new double[3];
+		this.vertice2 = new double[3];
+		this.vertice3 = new double[3];
+		this.vertice4 = new double[3];
+		
+        this.vertice1 = listOfCoords.get(0);
+        this.vertice2 = listOfCoords.get(1);
+        this.vertice3 = listOfCoords.get(2);
+        this.vertice4 = listOfCoords.get(3);
+        
     }
+	
+	public double[] getVertice1_postCoordinates() {
+		return calculateCoords(vertice1, PaintersAlgorithm.modelMatrix);
+	}
+
+	public void setVertice1_postCoordinates(double[] vertice1_postCoordinates) {
+		this.vertice1_postCoordinates = vertice1_postCoordinates;
+	}
+
+	public double[] getVertice2_postCoordinates() {
+		return calculateCoords(vertice2, PaintersAlgorithm.modelMatrix);
+	}
+
+	public void setVertice2_postCoordinates(double[] vertice2_postCoordinates) {
+		this.vertice2_postCoordinates = vertice2_postCoordinates;
+	}
+
+	public double[] getVertice3_postCoordinates() {
+		return calculateCoords(vertice3, PaintersAlgorithm.modelMatrix);
+	}
+
+	public void setVertice3_postCoordinates(double[] vertice3_postCoordinates) {
+		this.vertice3_postCoordinates = vertice3_postCoordinates;
+	}
+
+	public double[] getVertice4_postCoordinates() {
+		return calculateCoords(vertice4, PaintersAlgorithm.modelMatrix);
+	}
+
+	public void setVertice4_postCoordinates(double[] vertice4_postCoordinates) {
+		this.vertice4_postCoordinates = vertice4_postCoordinates;
+	}
+
+	private static double[] calculateCoords(double[] modelMatrix1, double[] original_coord) {
+		double out_coord[];
+		out_coord = new double[3];
+		original_coord = new double[3];
+		
+		modelMatrix1 = new double[16];
+		
+		double xp = modelMatrix1[0] * original_coord[0] + modelMatrix1[4] * original_coord[1] + modelMatrix1[8] * original_coord[2] + modelMatrix1[12];
+		double yp = modelMatrix1[1] * original_coord[0] + modelMatrix1[5] * original_coord[1] + modelMatrix1[9] * original_coord[2] + modelMatrix1[13];
+		double zp = modelMatrix1[2] * original_coord[0] + modelMatrix1[6] * original_coord[1] + modelMatrix1[10] * original_coord[2] + modelMatrix1[14];
+		double wp = modelMatrix1[3] * original_coord[0] + modelMatrix1[7] * original_coord[1] + modelMatrix1[11] * original_coord[2] + modelMatrix1[15];
+		
+		xp/=wp;
+		yp/=wp;
+		zp/=wp;
+		
+		out_coord[0] = xp;
+		out_coord[1] = yp;
+		out_coord[2] = zp;
+		
+		return out_coord;
+		
+	}
     
     public void draw (GL2 gl, boolean is_final, float first_color, float second_color, float third_color) {
        
         gl.glBegin(GL2.GL_QUADS);
         
-        gl.glColor3f(first_color, second_color, third_color ); 
+        gl.glColor3d(first_color, second_color, third_color ); 
         
-        //Horizontal walls are being drawn in different way
-        if(is_horizontal) {
-            gl.glVertex3f( x_start,y_start,z_start );
-            gl.glVertex3f( x_end,y_start,z_start );
-            gl.glVertex3f( x_end,y_end,z_end );
-            gl.glVertex3f( x_start,y_end,z_end ); 
-        }
-        else {
-            gl.glVertex3f( x_start,y_start,z_start );
-            gl.glVertex3f( x_end,y_start,z_end );
-            gl.glVertex3f( x_end,y_end,z_end );
-            gl.glVertex3f( x_start,y_end,z_start );
-        }
+        gl.glVertex3d( this.vertice1[0], this.vertice1[1], this.vertice1[2] );
+        gl.glVertex3d( this.vertice2[0], this.vertice2[1], this.vertice2[2] );
+        gl.glVertex3d( this.vertice3[0], this.vertice3[1], this.vertice3[2] );
+        gl.glVertex3d( this.vertice4[0], this.vertice4[1], this.vertice4[2] );
         
         gl.glEnd();
     }

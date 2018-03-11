@@ -25,6 +25,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
 import javax.swing.JButton;
@@ -37,7 +39,7 @@ import javax.swing.JPanel;
  * @author Kuba
  */
 public class PaintersAlgorithm  {
-	public static double move_z = -50.0f;
+	public static double move_z = 0.0f;
     public static double move_x = 0.0f;
     public static double move_y = 0.0f;
     public static double move_y_rotate = 0.0f;
@@ -57,10 +59,6 @@ public class PaintersAlgorithm  {
     public static double theta_x = 0.0f;
     public static double theta_y = 0.0f;
     
-    public static double xS = 1.0f;
-    public static double yS = 1.0f;
-    public static double zS = 1.0f;
-
     public static int phi_counter = 0;
     public static int theta_counter = 0;
     public static int alpha_counter = 0;
@@ -77,7 +75,9 @@ public class PaintersAlgorithm  {
     
     float width, height;
     float perspective = 10000.0f;
-    float favy = 60.0f;
+    float favy = 60;
+    
+    public static double[] modelMatrix = null;
     
     JFrame f; 
     DrawingPanel p;
@@ -123,20 +123,24 @@ public class PaintersAlgorithm  {
 					gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW); 
 					gl.glLoadIdentity(); // Reset The View
 					
-					float[] mv;
 					
-					mv = new float[16];
+					double[] mv;
 					
-					FloatBuffer buffer = null;
+					mv = new double[16];
 					
-					gl.glGetFloatv(GLMatrixFunc.GL_MODELVIEW_MATRIX, buffer);
+					modelMatrix = new double[16];
 					
-					mv = buffer.array();
+					gl.glGetDoublev(GLMatrixFunc.GL_MODELVIEW_MATRIX, mv, 0);
+					
 					
 					for (int i=0; i<mv.length; i ++) {
-						System.out.println(mv[i]);
+						System.out.print(mv[i] + " ");
+						if(i==3||i==7||i==11||i==15) {
+							System.out.println("\n");
+						}
 					}
 					
+					modelMatrix = mv;
 					
 					glu.gluPerspective(favy, (float) width / height, 1.0f, perspective);
 					
@@ -192,16 +196,22 @@ public class PaintersAlgorithm  {
 			       
 			       gl.glTranslated( move_x_rotate, move_y_rotate,   move_z_rotate );
 			       
-			       
-			       gl.glScaled(xS, yS, zS);
 			       PolygonDrawer sp = new PolygonDrawer();
 			       
 			       //gl.glPopMatrix();
 			       
+					gl.glGetDoublev(GLMatrixFunc.GL_MODELVIEW_MATRIX, mv, 0);
+					
+					modelMatrix = mv;
+					
+					for (int i=0; i<mv.length; i ++) {
+						System.out.print(mv[i] + " ");
+						if(i==3||i==7||i==11||i==15) {
+							System.out.println("\n");
+						}
+					}
+			       
 			       sp.display(drawable);
-			       
-			       
-			       
 			       
 			       gl.glFlush();
 					
