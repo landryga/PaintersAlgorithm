@@ -340,12 +340,12 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         
         finalSquaresList = mntn.squaresCompare(squareList);
         
-        //TODO: analyze coordinates order for simple scenario
         for(int i = 0; i<finalSquaresList.size(); i++ ) {
             int k = finalSquaresList.get(i);
             Polygon dr = squareList.get(k);
-            double[] ver = new double[3];
-            System.out.println("Polygon " + dr.getName() );
+            
+            System.out.println("Polygon " + dr.getName() + ", zMax = " + dr.getZmax() + ", zMin = " + dr.getZmin() );
+            
             dr.draw(gl, true, dr.getFirst_color(), dr.getSecond_color(), dr.getThird_color());
         }
     }

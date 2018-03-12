@@ -28,6 +28,7 @@ import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -111,11 +112,13 @@ public class PaintersAlgorithm  {
 					width = w;
 					height = h;
 					
-					//glu.gluPerspective(60.0f , (float) w / h , 1.0f , perspective);
+					glu.gluPerspective(60.0f , (float) w / h , 1.0f , perspective);
 				}
 
 				public void display(GLAutoDrawable drawable) {
 					GL2 gl = drawable.getGL().getGL2();
+					
+					
 					
 					
 				       
@@ -132,17 +135,9 @@ public class PaintersAlgorithm  {
 					
 					gl.glGetDoublev(GLMatrixFunc.GL_MODELVIEW_MATRIX, mv, 0);
 					
+					//glu.gluPerspective(favy, (float) width / height, 1.0f, perspective);
 					
-					for (int i=0; i<mv.length; i ++) {
-						System.out.print(mv[i] + " ");
-						if(i==3||i==7||i==11||i==15) {
-							System.out.println("\n");
-						}
-					}
-					
-					modelMatrix = mv;
-					
-					glu.gluPerspective(favy, (float) width / height, 1.0f, perspective);
+					gl.glGetDoublev(GLMatrixFunc.GL_MODELVIEW_MATRIX, mv, 0);
 					
 			       move_x_rotate = move_x;
 			       move_y_rotate = move_y;
@@ -153,6 +148,8 @@ public class PaintersAlgorithm  {
 			    	   theta_counter = 0;
 			    	   phi_counter = 0;
 			       }
+			       
+			       
 			       
 			       gl.glTranslated( move_x, move_y,   move_z ); // Move the shape
 			       
@@ -202,10 +199,32 @@ public class PaintersAlgorithm  {
 			       
 					gl.glGetDoublev(GLMatrixFunc.GL_MODELVIEW_MATRIX, mv, 0);
 					
+					
+					//Transpose table mv
+					modelMatrix[0] = mv[0];
+					
+					int index_keeper = 0;
+					/*
+					for(int i = 1; i <mv.length; i++) {
+						
+						if((index_keeper+4)<=15) {
+							index_keeper = index_keeper+4;
+							modelMatrix[i] = mv[index_keeper];
+						}
+						else {
+							index_keeper = index_keeper-11;
+							modelMatrix[i] = mv[index_keeper];
+						}
+					}
+					*/
+					
 					modelMatrix = mv;
 					
 					for (int i=0; i<mv.length; i ++) {
-						System.out.print(mv[i] + " ");
+						DecimalFormat df = new DecimalFormat();
+						df.setMaximumFractionDigits(1);
+						
+						System.out.print(df.format(modelMatrix[i]) + "   ");
 						if(i==3||i==7||i==11||i==15) {
 							System.out.println("\n");
 						}

@@ -129,13 +129,39 @@ public class Polygon {
 	public void setVertice4_postCoordinates(double[] vertice4_postCoordinates) {
 		this.vertice4_postCoordinates = vertice4_postCoordinates;
 	}
+	
+	public double getZmin() {
+		
+		List<double[]> helper = this.getPostVertList();
+		
+		double zMin = helper.get(0)[2];
+		
+		for(int i = 0; i < helper.size(); i++) {
+			if(helper.get(i)[2] < zMin)
+				zMin = helper.get(i)[2];
+		}
+		
+		return zMin;
+		
+	}
+	
+	public double getZmax() {
+		List<double[]> helper = this.getPostVertList();
+		
+		double zMax = helper.get(0)[2];
+		
+		for(int i = 0; i < helper.size(); i++) {
+			if(helper.get(i)[2] > zMax)
+				zMax = helper.get(i)[2];
+		}
+		
+		return zMax;
+	}
 
-	private static double[] calculateCoords(double[] modelMatrix1, double[] original_coord) {
+	private static double[] calculateCoords(double[] original_coord, double[] modelMatrix1) {
 		double out_coord[];
 		out_coord = new double[3];
-		original_coord = new double[3];
 		
-		modelMatrix1 = new double[16];
 		
 		double xp = modelMatrix1[0] * original_coord[0] + modelMatrix1[4] * original_coord[1] + modelMatrix1[8] * original_coord[2] + modelMatrix1[12];
 		double yp = modelMatrix1[1] * original_coord[0] + modelMatrix1[5] * original_coord[1] + modelMatrix1[9] * original_coord[2] + modelMatrix1[13];
