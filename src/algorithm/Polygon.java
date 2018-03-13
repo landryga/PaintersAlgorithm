@@ -130,6 +130,62 @@ public class Polygon {
 		this.vertice4_postCoordinates = vertice4_postCoordinates;
 	}
 	
+	public double getXmin() {
+		
+		List<double[]> helper = this.getPostVertList();
+		
+		double xMin = helper.get(0)[0];
+		
+		for(int i = 0; i < helper.size(); i++) {
+			if(helper.get(i)[0] < xMin)
+				xMin = helper.get(i)[0];
+		}
+		
+		return xMin;
+		
+	}
+	
+	public double getXmax() {
+		List<double[]> helper = this.getPostVertList();
+		
+		double xMax = helper.get(0)[0];
+		
+		for(int i = 0; i < helper.size(); i++) {
+			if(helper.get(i)[0] > xMax)
+				xMax = helper.get(i)[0];
+		}
+		
+		return xMax;
+	}
+	
+	public double getYmin() {
+		
+		List<double[]> helper = this.getPostVertList();
+		
+		double yMin = helper.get(0)[1];
+		
+		for(int i = 0; i < helper.size(); i++) {
+			if(helper.get(i)[1] < yMin)
+				yMin = helper.get(i)[1];
+		}
+		
+		return yMin;
+		
+	}
+	
+	public double getYmax() {
+		List<double[]> helper = this.getPostVertList();
+		
+		double yMax = helper.get(0)[1];
+		
+		for(int i = 0; i < helper.size(); i++) {
+			if(helper.get(i)[1] > yMax)
+				yMax = helper.get(i)[1];
+		}
+		
+		return yMax;
+	}
+	
 	public double getZmin() {
 		
 		List<double[]> helper = this.getPostVertList();
@@ -157,6 +213,37 @@ public class Polygon {
 		
 		return zMax;
 	}
+	
+	public double[] getPlaneEquation() {
+		
+		//get 3 verices coordinates
+		double v1_x = this.getVertice1_postCoordinates()[0] ;
+		double v1_y = this.getVertice1_postCoordinates()[1] ;
+		double v1_z = this.getVertice1_postCoordinates()[2] ;
+		
+		double v2_x = this.getVertice2_postCoordinates()[0] ;
+		double v2_y = this.getVertice2_postCoordinates()[1] ;
+		double v2_z = this.getVertice2_postCoordinates()[2] ;
+		
+		double v3_x = this.getVertice2_postCoordinates()[0] ;
+		double v3_y = this.getVertice2_postCoordinates()[1] ;
+		double v3_z = this.getVertice2_postCoordinates()[2] ;
+		
+		
+		double A = v1_y*v2_z + v2_y*v3_z + v3_y*v1_z - (v2_z*v3_y + v3_z*v1_y + v1_z*v2_y);
+		double B = v1_x*v2_z + v2_x*v3_z + v3_x*v1_z - (v2_z*v3_x + v3_z*v1_x + v1_z*v2_x);
+		double C = v1_x*v2_y + v2_x*v3_y + v3_x*v1_y - (v2_y*v3_x + v3_y*v1_x + v1_y*v2_x);
+		double D = v1_x*v2_y*v3_z + v2_x*v3_y*v1_z + v3_x*v1_y*v2_z - (v1_z*v2_y*v3_x + v2_z*v3_y*v1_x+v3_z*v1_y*v2_x);
+		
+		double[] eq = {A, B, C, D};
+		
+		return eq;
+		
+	}
+	
+	
+	
+	
 
 	private static double[] calculateCoords(double[] original_coord, double[] modelMatrix1) {
 		double out_coord[];

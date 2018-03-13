@@ -131,7 +131,7 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         //------------------------------Second Cube start--------------------------------
         Polygon dr7 = new Polygon();
         
-        dr7.setName("second far");
+        dr7.setName("second near");
         
         List CCords7 = new ArrayList();
         CCords7.add(new double[] {(double) (1.5*x), y, 4*z});
@@ -146,7 +146,7 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         //draw second square
         Polygon dr8 = new Polygon();
         
-        dr8.setName("second near");
+        dr8.setName("second far");
         
         List CCords8 = new ArrayList();
         CCords8.add(new double[] {(double) (1.5*x), y, 1.5*z});
@@ -311,16 +311,16 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         
         squareList.add(dr1);
         squareList.add(dr2);
-        /*
+        
         squareList.add(dr3);
         squareList.add(dr4);
         squareList.add(dr5);
         squareList.add(dr6);
-        */
+        
         squareList.add(dr7);
         squareList.add(dr8);
         
-        /*
+        
         squareList.add(dr9);
         squareList.add(dr10);
         squareList.add(dr11);
@@ -331,18 +331,17 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         squareList.add(dr16);
         squareList.add(dr17);
         squareList.add(dr18);
-        */
+        
         PolygonComparator comparator = new PolygonComparator();
         
         //Create list that stores indexes of walls. For sorting purposes
         PolygonMaintainter mntn = new PolygonMaintainter();
-        List <Integer> finalSquaresList; 
+        List <Polygon> finalSquaresList; 
         
         finalSquaresList = mntn.squaresCompare(squareList);
         
         for(int i = 0; i<finalSquaresList.size(); i++ ) {
-            int k = finalSquaresList.get(i);
-            Polygon dr = squareList.get(k);
+            Polygon dr = finalSquaresList.get(i);
             
             System.out.println("Polygon " + dr.getName() + ", zMax = " + dr.getZmax() + ", zMin = " + dr.getZmin() );
             

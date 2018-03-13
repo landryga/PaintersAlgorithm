@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class PolygonComparator  {
 
+	//returns 1 if p1 is before p2 
     public int compare(Polygon p1, Polygon p2) {
     	
     	List<double[]> p1CoordsContainer = new ArrayList();
@@ -27,37 +28,46 @@ public class PolygonComparator  {
     	
     	p1CoordsContainer = p1.getPostVertList();
     	p2CoordsContainer = p2.getPostVertList();
+    	
+    	double z1_min = p1.getZmin();
+    	double z2_max = p2.getZmax();
+    	
+    	double x1_max = p1.getXmax();
+    	double x2_min = p2.getXmin();
+    	
+    	double y1_max = p1.getYmax();
+    	double y2_min = p2.getYmin();
+    	
+    	//Calculate 4 inequalities for TEST 3
+    	double[] eq = p1.getPlaneEquation();
+    	
+    	//Vertice 1
+    	double v1_eq = p2.getPostVertList().get(0)[0] *eq[0] + p2.getPostVertList().get(0)[1] *eq[1] + p2.getPostVertList().get(0)[2] *eq[2] + eq[3];
+    	//Vertice 2
+    	double v2_eq = p2.getPostVertList().get(1)[0] *eq[0] + p2.getPostVertList().get(1)[1] *eq[1] + p2.getPostVertList().get(1)[2] *eq[2] + eq[3];
+    	//Vertice 3
+    	double v3_eq = p2.getPostVertList().get(2)[0] *eq[0] + p2.getPostVertList().get(2)[1] *eq[1] + p2.getPostVertList().get(2)[2] *eq[2] + eq[3];
+    	//Vertice 4
+    	double v4_eq = p2.getPostVertList().get(3)[0] *eq[0] + p2.getPostVertList().get(3)[1] *eq[1] + p2.getPostVertList().get(3)[2] *eq[2] + eq[3];
+    	
        
 	    //TEST 1 - depth overlap
-    	double z_min;
-    	double z_max;
-    	
-    	double[] t_reference1 = p1CoordsContainer.get(0);
-    	z_min = t_reference1[2];
-    	
-    	double[] t_reference2 = p1CoordsContainer.get(0);
-    	z_max = t_reference2[2];
-    	
-    	for(int i = 1; i < p1CoordsContainer.size(); i++) {
-    		double[] t = p1CoordsContainer.get(i);
-    		if (t[2]<z_min) 
-    			z_min = t[2];
+    	if (z1_min>z2_max) {
+    		return 1;
     	}
     	
-    	for(int i = 1; i < p2CoordsContainer.size(); i++) {
-    		double[] t = p2CoordsContainer.get(i);
-    		if (t[2]>z_max) 
-    			z_max = t[2];
-    	}
-    	
-    	if (z_min<=z_max) {
+    	//TEST 2 - XY overlap
+    	else if (x1_max < x2_min || y1_max < y2_min) {
     		return 0;
     	}
-    	else return 1;
+    	
+    	//TEST 3 - check where polygon is in reference to the plane defined by other polygon
+    	else if (v1_eq>0 && v2_eq>0 && v3_eq>0 && v4_eq > 0){
+    		return 1;
+    	}
+    	
+    	return 0;
     
-	    	
-		
-       
     } 
 }
 

@@ -199,25 +199,6 @@ public class PaintersAlgorithm  {
 			       
 					gl.glGetDoublev(GLMatrixFunc.GL_MODELVIEW_MATRIX, mv, 0);
 					
-					
-					//Transpose table mv
-					modelMatrix[0] = mv[0];
-					
-					int index_keeper = 0;
-					/*
-					for(int i = 1; i <mv.length; i++) {
-						
-						if((index_keeper+4)<=15) {
-							index_keeper = index_keeper+4;
-							modelMatrix[i] = mv[index_keeper];
-						}
-						else {
-							index_keeper = index_keeper-11;
-							modelMatrix[i] = mv[index_keeper];
-						}
-					}
-					*/
-					
 					modelMatrix = mv;
 					
 					for (int i=0; i<mv.length; i ++) {
