@@ -41,6 +41,8 @@ public class Polygon {
     private float second_color;
     private float third_color;
     
+    public boolean was_equation_criteria_compared = false;
+    
     
     
     public List<double[]> getPostVertList() {
@@ -225,9 +227,9 @@ public class Polygon {
 		double v2_y = this.getVertice2_postCoordinates()[1] ;
 		double v2_z = this.getVertice2_postCoordinates()[2] ;
 		
-		double v3_x = this.getVertice2_postCoordinates()[0] ;
-		double v3_y = this.getVertice2_postCoordinates()[1] ;
-		double v3_z = this.getVertice2_postCoordinates()[2] ;
+		double v3_x = this.getVertice3_postCoordinates()[0] ;
+		double v3_y = this.getVertice3_postCoordinates()[1] ;
+		double v3_z = this.getVertice3_postCoordinates()[2] ;
 		
 		
 		double A = v1_y*v2_z + v2_y*v3_z + v3_y*v1_z - (v2_z*v3_y + v3_z*v1_y + v1_z*v2_y);
@@ -235,7 +237,7 @@ public class Polygon {
 		double C = v1_x*v2_y + v2_x*v3_y + v3_x*v1_y - (v2_y*v3_x + v3_y*v1_x + v1_y*v2_x);
 		double D = v1_x*v2_y*v3_z + v2_x*v3_y*v1_z + v3_x*v1_y*v2_z - (v1_z*v2_y*v3_x + v2_z*v3_y*v1_x+v3_z*v1_y*v2_x);
 		
-		double[] eq = {A, B, C, D};
+		double[] eq = {A, -B, C, -D};
 		
 		return eq;
 		

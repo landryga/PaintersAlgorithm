@@ -309,28 +309,48 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         
         //add all Wall object to list for sorting purposes
         
+        
+        //vertical
+        /*
+        squareList.add(dr3);
+        */
+        //1right
+        squareList.add(dr5);
+        //2left
+        squareList.add(dr9);
+        /*
+        squareList.add(dr11);
+        squareList.add(dr15);
+        squareList.add(dr17);
+      */
+        
+        //horizontal
+        //1up
+        
+        squareList.add(dr4);
+        /*
+        squareList.add(dr6);
+        */
+        //2upper
+        squareList.add(dr10);
+        /*
+        squareList.add(dr12);
+        squareList.add(dr16);
+        squareList.add(dr18);
+        */
+        //else
+        /*
         squareList.add(dr1);
         squareList.add(dr2);
-        
-        squareList.add(dr3);
-        squareList.add(dr4);
-        squareList.add(dr5);
-        squareList.add(dr6);
-        
         squareList.add(dr7);
         squareList.add(dr8);
-        
-        
-        squareList.add(dr9);
-        squareList.add(dr10);
-        squareList.add(dr11);
-        squareList.add(dr12);
         squareList.add(dr13);
         squareList.add(dr14);
-        squareList.add(dr15);
-        squareList.add(dr16);
-        squareList.add(dr17);
-        squareList.add(dr18);
+        */
+        
+        
+        
+        
         
         PolygonComparator comparator = new PolygonComparator();
         
@@ -343,7 +363,7 @@ public class PolygonDrawer implements GLEventListener, ActionListener{
         for(int i = 0; i<finalSquaresList.size(); i++ ) {
             Polygon dr = finalSquaresList.get(i);
             
-            System.out.println("Polygon " + dr.getName() + ", zMax = " + dr.getZmax() + ", zMin = " + dr.getZmin() );
+            System.out.println("Polygon " + dr.getName() + ", zMax = " + dr.getZmax() + ", zMin = " + dr.getZmin() + "plane eq: A = " + dr.getPlaneEquation()[0] + ", B=" + dr.getPlaneEquation()[1] + ", C=" + dr.getPlaneEquation()[2] + ", D=" +  dr.getPlaneEquation()[3]);
             
             dr.draw(gl, true, dr.getFirst_color(), dr.getSecond_color(), dr.getThird_color());
         }

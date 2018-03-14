@@ -27,25 +27,14 @@ public class PolygonMaintainter {
         
         //Using bubblesort
         
-        int counter = squaresList.size();
+        int n = squaresList.size();
         int helper = 0;
         
         PolygonComparator comparator = new PolygonComparator();
         
-        while(counter!=0) {
-        	helper = 0;
-        	for(int i = 1; i < counter; i++) {
-        		Polygon sq1 = squaresList.get(i-1);
-        		Polygon sq2 = squaresList.get(i);
-        		
-        		if(comparator.compare(sq1,sq2) == 1) {
-        			squaresList.add(i+1, sq1);
-        			squaresList.remove(i-1);
-        			helper = i;
-        		}
-        	}
-        	counter = helper;
-        }
+        boolean proceed;
+        
+        //TODO - implement procedure to compare each wall with all different walls
         
         /*
         for(int i = 0; i < squaresList.size(); i++) {

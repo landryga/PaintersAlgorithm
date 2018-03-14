@@ -50,21 +50,30 @@ public class PolygonComparator  {
     	//Vertice 4
     	double v4_eq = p2.getPostVertList().get(3)[0] *eq[0] + p2.getPostVertList().get(3)[1] *eq[1] + p2.getPostVertList().get(3)[2] *eq[2] + eq[3];
     	
+    	double observer = eq[3];
+    	
        
 	    //TEST 1 - depth overlap
     	if (z1_min>z2_max) {
     		return 1;
     	}
-    	
+    	/*
     	//TEST 2 - XY overlap
     	else if (x1_max < x2_min || y1_max < y2_min) {
     		return 0;
     	}
+    	*/
     	
     	//TEST 3 - check where polygon is in reference to the plane defined by other polygon
-    	else if (v1_eq>0 && v2_eq>0 && v3_eq>0 && v4_eq > 0){
+    	else if ((observer > 0 && (v1_eq>0 && v2_eq>0 && v3_eq>0 && v4_eq>0)) || (observer < 0 && (v1_eq<0 && v2_eq<0 && v3_eq<0 && v4_eq<0))){
+    		return 0;
+    	}
+    	
+    	//TEST 3 - check where polygon is in reference to the plane defined by other polygon
+    	else if ((observer < 0 && (v1_eq>0 || v2_eq>0 || v3_eq>0 || v4_eq>0)) || (observer > 0 && (v1_eq<0 || v2_eq<0 || v3_eq<0 || v4_eq<0))){
     		return 1;
     	}
+    	
     	
     	return 0;
     
