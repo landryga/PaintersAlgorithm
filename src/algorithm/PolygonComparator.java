@@ -11,6 +11,8 @@ import static algorithm.PaintersAlgorithm.move_z;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,14 @@ import java.util.List;
  * @author Kuba
  */
 public class PolygonComparator  {
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
 
 	//returns 1 if p1 is before p2 
     public int compare(Polygon p1, Polygon p2) {
@@ -42,13 +52,13 @@ public class PolygonComparator  {
     	double[] eq = p1.getPlaneEquation();
     	
     	//Vertice 1
-    	double v1_eq = p2.getPostVertList().get(0)[0] *eq[0] + p2.getPostVertList().get(0)[1] *eq[1] + p2.getPostVertList().get(0)[2] *eq[2] + eq[3];
+    	double v1_eq = round(p2.getPostVertList().get(0)[0] *eq[0] + p2.getPostVertList().get(0)[1] *eq[1] + p2.getPostVertList().get(0)[2] *eq[2] + eq[3], 2);
     	//Vertice 2
-    	double v2_eq = p2.getPostVertList().get(1)[0] *eq[0] + p2.getPostVertList().get(1)[1] *eq[1] + p2.getPostVertList().get(1)[2] *eq[2] + eq[3];
+    	double v2_eq = round(p2.getPostVertList().get(1)[0] *eq[0] + p2.getPostVertList().get(1)[1] *eq[1] + p2.getPostVertList().get(1)[2] *eq[2] + eq[3], 2);
     	//Vertice 3
-    	double v3_eq = p2.getPostVertList().get(2)[0] *eq[0] + p2.getPostVertList().get(2)[1] *eq[1] + p2.getPostVertList().get(2)[2] *eq[2] + eq[3];
+    	double v3_eq = round(p2.getPostVertList().get(2)[0] *eq[0] + p2.getPostVertList().get(2)[1] *eq[1] + p2.getPostVertList().get(2)[2] *eq[2] + eq[3], 2);
     	//Vertice 4
-    	double v4_eq = p2.getPostVertList().get(3)[0] *eq[0] + p2.getPostVertList().get(3)[1] *eq[1] + p2.getPostVertList().get(3)[2] *eq[2] + eq[3];
+    	double v4_eq = round(p2.getPostVertList().get(3)[0] *eq[0] + p2.getPostVertList().get(3)[1] *eq[1] + p2.getPostVertList().get(3)[2] *eq[2] + eq[3], 2);
     	
     	double observer = eq[3];
     	

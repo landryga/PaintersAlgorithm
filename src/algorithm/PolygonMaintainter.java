@@ -8,52 +8,37 @@ package algorithm;
 import java.util.LinkedList;
 import java.util.List;
 
+import algorithm.BST.TreeException;
+
 /**
  *
  * @author Kuba
  */
 public class PolygonMaintainter {
     
-    public List<Polygon>  squaresCompare(List<Polygon> squaresList) {
+    public List<Polygon>  squaresCompare(List<Polygon> squaresList) throws TreeException {
         
+    	BST bst = new BST();
+    	BST.Node node = bst.new Node(squaresList.get(0));
     	
     	
-        List<Integer> indexMaintainer = new LinkedList<>();
+    	
+        List<Polygon> indexMaintainer = new LinkedList<>();
         
         for(int i = 0; i < squaresList.size(); i++) {
-            Polygon sq  = squaresList.get(i);
-            indexMaintainer.add(i);
+        	bst.insert(squaresList.get(i));
         }
-        
-        //Using bubblesort
-        
-        int n = squaresList.size();
-        int helper = 0;
-        
-        PolygonComparator comparator = new PolygonComparator();
-        
-        boolean proceed;
         
         //TODO - implement procedure to compare each wall with all different walls
         
-        /*
-        for(int i = 0; i < squaresList.size(); i++) {
-            Polygon sq1 = squaresList.get(i);
-            for(int j = i+1; j<squaresList.size(); j++) {
-                Polygon sq2 = squaresList.get(j);
-                PolygonComparator comparator = new PolygonComparator();
-                
-                if(comparator.compare(sq1,sq2) == 1 && indexMaintainer.indexOf(j) > indexMaintainer.indexOf(i)) {
-                    
-                    indexMaintainer.remove(indexMaintainer.indexOf(j));
-                    indexMaintainer.add(indexMaintainer.indexOf(i), j);
-                }
-                
-                counter++;
-            }
+        while(BST.root!=null) {
+        	node = bst.min(BST.root);
+        	indexMaintainer.add(node.polygon);
+        	bst.remove(node.polygon);
         }
-        */
-        return squaresList;
+        
+        
+        return indexMaintainer;
     }
     
 }
