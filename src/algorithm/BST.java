@@ -1,12 +1,11 @@
 package algorithm;
 
 /**
-* Code taken from
+* Code taken from below site, however significantly changed for purpose of this project
 * 
 * @author Lukasz Guz
 * www.algorytm.org
 * 
-* But significantly changed for purpose of this project
 */
 
 public class BST {
@@ -106,30 +105,7 @@ public class BST {
 		else
 			throw new TreeException("Not Found Successor");
 	}
-	
 
-	/*
-	private Node predecessor(int key) throws TreeException {
-		Node node = this.search(key);
-		
-		if(node.left != null) {
-			node = node.left;
-			while(node.right != null)
-				node = node.right;
-			return node;
-		}
-		
-		else if(node.left == null && node != root  && node != this.min(root)) {
-			Node parent = node.parent;
-			while(parent != root && parent.key > node.key)
-				parent = parent.parent;
-			
-			return parent;
-		}
-		else
-			throw new TreeException("Not Found Predecessor");
-	}
-	*/
 
 	public Node remove(Polygon polygon) throws TreeException {
 		Node node = this.search(polygon);
@@ -165,55 +141,4 @@ public class BST {
 		return node;
 	}
 
-	/*
-	public void inOrder(Node node) {
-		if(node != null) {
-			inOrder(node.left);
-			
-			System.out.print(node.key + ", ");
-		
-			inOrder(node.right);
-		}
-	}
-	*/
-
-	/*
-	public void preOrder(Node node) {
-		if(node != null) {
-			System.out.print(node.key + ", ");
-			
-			if(node.left != null)
-				System.out.print(node.left.key + ", ");
-			else
-				System.out.print("-, ");
-			
-			if(node.right != null)
-				System.out.println(node.right.key);
-			else
-				System.out.println("-");
-			 
-			preOrder(node.left);
-			preOrder(node.right);
-		}
-	}
-	*/
-  
-	/*
-	public void postOrder(Node node) {
-		if(node != null) {
-			postOrder(node.left);
-			postOrder(node.right);
-			System.out.print(node.key + ", ");
-			
-			if(node.left != null)
-				System.out.print(node.left.key + ", ");
-			else
-				System.out.print("-, ");
-			if(node.right != null)
-				System.out.println(node.right.key);
-			else
-				System.out.println("-");
-		}
-	}
-	*/
 }
